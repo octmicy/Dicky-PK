@@ -1,0 +1,151 @@
+# 牛子PK 插件配置
+# 默认值与原版 nonebot-plugin-dicky-pk 的 src/config.json 逐一相等。
+# 修改后保存即可热更新（on_config_update 会重新注入游戏逻辑）。
+
+[plugin]
+enabled = true
+config_version = "1.0.0"
+
+[basic]
+new_chinchin_length_random_min = 8
+new_chinchin_length_random_max = 15
+lock_me_chinchin_min = 20
+lock_daily_max = 36
+cd_trigger_lock_time = 60
+cd_trigger_lock_rate = 0.5
+pk_daily_max = 36
+cd_trigger_pk_time = 60
+cd_trigger_pk_rate = 0.5
+glue_daily_max = 36
+cd_trigger_glue_time = 60
+cd_trigger_glue_rate = 0.5
+
+[lock]
+lock_me_negative_prob = 0.7
+lock_me_negative_min = 0.1
+lock_me_negative_max = 1.0
+lock_plus_min = 0.1
+lock_plus_max = 1.0
+lock_me_negative_prob_with_strong_person = 0.2
+lock_me_negative_with_strong_person_min = 2.0
+lock_me_negative_with_strong_person_max = 5.0
+
+[glue]
+glue_plus_min = 0.5
+glue_plus_max = 1.5
+glue_self_negative_prob = 0.2
+glue_self_negative_min = 0.1
+glue_self_negative_max = 0.5
+glue_negative_prob = 0.3
+glue_negative_min = 0.1
+glue_negative_max = 1.0
+
+[pk]
+pk_unstable_range_v2 = 1.0
+pk_unstable_range_v2_edge = [0.1, 0.9]
+pk_plus_min = 0.5
+pk_plus_max = 1.5
+pk_negative_min = 0.3
+pk_negative_max = 1.0
+pk_guard_chinchin_length = 5.0
+ranking_list_length = 8
+
+[[rebirth.levels]]
+level = 1
+name = "1转牛豪"
+cost_length = 200
+weight = 1.5
+fail_prob = 0.2
+fail_negative_min = 10
+fail_negative_max = 30
+
+[[rebirth.levels]]
+level = 2
+name = "2转牛皇"
+cost_length = 300
+weight = 2.0
+fail_prob = 0.4
+fail_negative_min = 20
+fail_negative_max = 60
+
+[[rebirth.levels]]
+level = 3
+name = "3转牛尊"
+cost_length = 400
+weight = 2.5
+fail_prob = 0.6
+fail_negative_min = 40
+fail_negative_max = 120
+
+[[rebirth.levels]]
+level = 4
+name = "4转牛圣"
+cost_length = 500
+weight = 3.0
+fail_prob = 0.8
+fail_negative_min = 80
+fail_negative_max = 240
+
+[[rebirth.levels]]
+level = 5
+name = "5转牛仙"
+cost_length = 600
+weight = 3.5
+fail_prob = 0.99
+fail_negative_min = 160
+fail_negative_max = 480
+
+[[badge.categories]]
+id = 1
+name = "牛子掠夺者"
+description = "它说，可以上了"
+priority = 100
+conditions = ["pk_win_count|>=50", "pk_plus_length_total|>=50"]
+additions = ["pk_weight|10%,1"]
+
+[[badge.categories]]
+id = 2
+name = "打胶大师"
+description = "精湛的打胶要有仪式感"
+priority = 90
+conditions = ["glue_plus_count|>=50", "glue_plus_length_total|>=100"]
+additions = ["glue_weight|10%,1"]
+
+[farm]
+start = "20:00"
+duration = "10h"
+reward_min = 0.01
+reward_max = 0.07
+reward_base = 5.0
+
+[[farm.cost]]
+time = "1h"
+status = "嗦气期"
+
+[[farm.cost]]
+time = "2h"
+status = "筑胶期"
+
+[[farm.cost]]
+time = "3h"
+status = "大乘期"
+
+[[farm.cost]]
+time = "4h"
+status = "飞升期"
+
+[[farm.cost]]
+time = "5h"
+status = "渡劫期"
+
+[friends]
+max = 8
+fee_friends = 0.2
+cost_base = 0.01
+cost_share = 0.001
+addition_pk_plus_base = 0.02
+addition_pk_plus_share = 0.001
+addition_lock_plus_base = 0.1
+addition_lock_plus_share = 0.01
+addition_glue_plus_base = 0.1
+addition_glue_plus_share = 0.01
