@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "id": "octmicy.dicky-pk",
   "name": "牛子PK",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "移植自 nonebot-plugin-dicky-pk（原作者 月ヶ瀬）的群聊小游戏",
   "author": {
     "name": "octmicy",
@@ -18,7 +18,7 @@
   },
   "sdk": {
     "min_version": "2.6.0",
-    "max_version": "2.99.99"
+    "max_version": "2.13.99"
   },
   "dependencies": [],
   "capabilities": [

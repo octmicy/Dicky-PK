@@ -4,7 +4,7 @@
 注册牛子、pk、🔒、打胶、看他牛子、牛子排名、牛子转生、牛子成就、牛子仙境修炼、牛友系统。
 
 - 插件 ID：`octmicy.dicky-pk`
-- 版本：`1.0.0`（游戏内版本字符串仍为原版 `2.6.5`，两者无关，见下"已知偏差"）
+- 版本：`1.0.1`（游戏内版本字符串仍为原版 `2.6.5`，两者无关，见下"已知偏差"）
 - 依赖：**零第三方依赖**（纯标准库 + MaiBot Plugin SDK）
 
 ---
@@ -80,11 +80,15 @@ operator: 启用牛子pk          → "已启用群聊小游戏: Dicky-PK"
 
 ---
 
-## 3. 配置说明（`config.toml`）
+## 3. 配置说明（`config.toml` / `config.toml.example`）
 
 配置为全量强类型模型 `DickyPKConfig`（`config.py`，共 80 个字段，9 个节），
 默认值与原版 `src/config.json` **逐一相等**（已用 OneKey env python 逐项深比较通过）。
-`config.toml` 与模型默认值等价，WebUI 配置页按节渲染。
+
+`config.toml` **不纳入 Git 跟踪**：插件首次加载时，SDK 会自动用模型默认值生成它；
+仓库只提供 `config.toml.example` 模板供查阅和手动初始化（复制为 `config.toml` 后自行调整）。
+这样用户本地的配置改动不会在版本更新时与 Git 跟踪内容冲突。WebUI 配置页按节渲染，
+与直接编辑 `config.toml` 等效。
 
 | 节 | 模型类 | 字段数 | 含义 |
 | --- | --- | --- | --- |
@@ -108,8 +112,7 @@ operator: 启用牛子pk          → "已启用群聊小游戏: Dicky-PK"
   加成每条编码为 `"字段名|表达式1,表达式2"`（如 `pk_weight|10%,1`，`%` 结尾为比例，纯数字为固定值）。
   WebUI 配置表单只支持一层对象数组且元素仅限标量，故用编码字符串承载 字段->表达式 映射。
 - **热更新**：修改 `config.toml` 保存后，`on_config_update` 会重建扁平配置桥并调用
-  `BadgeSystem/FarmSystem/FriendsSystem` 的 `reset_cache()`，新参数立即生效，无需重启。
-- 废弃键 `_pk_unstable_range`（v2.4.3 起弃用）未迁移，其 `deprecated_tips` 一并删除。
+  `BadgeSystem/FarmSystem/FriendsSystem` 的 `reset_cache()`，新参数立即生效，无需重启。- 废弃键 `_pk_unstable_range`（v2.4.3 起弃用）未迁移，其 `deprecated_tips` 一并删除。
 
 ---
 
@@ -121,8 +124,9 @@ operator: 启用牛子pk          → "已启用群聊小游戏: Dicky-PK"
 C:\Users\octmicy\AppData\Roaming\MaiBotOneKeyDesktop\0163381a22cb\modules\MaiBot\plugins\dicky_pk\
 ```
 
-即 `<MaiBot 模块根>\plugins\dicky_pk\`——**整个 `dicky_pk/` 目录拷入**（含 `config.toml`、
-`_manifest.json`、`game/` 子包）。
+即 `<MaiBot 模块根>\plugins\<任意目录名>\`——**把本仓库根目录的全部内容拷入该目录**
+（`_manifest.json`、`plugin.py`、`config.py`、`game/` 子包等；目录名即 Python 包名，
+示例用 `dicky_pk`）。`config.toml` 无需拷贝——首次加载时 SDK 会自动生成。
 
 ### 4.2 数据目录
 
@@ -138,12 +142,13 @@ C:\Users\octmicy\AppData\Roaming\MaiBotOneKeyDesktop\0163381a22cb\modules\MaiBot
 ### 4.3 部署方法
 
 1. 停写主程序相关配置（本插件不依赖改主程序任何文件）。
-2. 复制目录：
+2. 复制目录（以克隆本仓库后的路径为例）：
    ```bash
-   cp -r D:/workdoc/plugin/maibot-plugin-dicky-pk/dicky_pk \
-         "C:/Users/octmicy/AppData/Roaming/MaiBotOneKeyDesktop/0163381a22cb/modules/MaiBot/plugins/"
+   cp -r /path/to/Dicky-PK/. \
+         "C:/Users/octmicy/AppData/Roaming/MaiBotOneKeyDesktop/0163381a22cb/modules/MaiBot/plugins/dicky_pk/"
    ```
-   （Windows 下等价的 `robocopy` / `xcopy /E /I` 亦可；不要遗漏 `config.toml`。）
+   （Windows 下等价的 `robocopy` / `xcopy /E /I` 亦可；无需拷贝 `config.toml`，
+   需要初始配置参考时看 `config.toml.example`。）
 3. 在 OneKey 中重载插件 / 重启主程序，使 Runner 重新 `collect_components`。
 4. WebUI → 插件配置 → 牛子PK：确认 9 个配置节渲染正常。
 5. operator 在群里发送 `开启牛子秘境` → `启用牛子pk` → `注册牛子` 开始游戏。
@@ -152,8 +157,8 @@ C:\Users\octmicy\AppData\Roaming\MaiBotOneKeyDesktop\0163381a22cb\modules\MaiBot
 
 | 项 | 版本 |
 | --- | --- |
-| Host | ≥ 1.3.0（`_manifest.json: host_application.min_version`） |
-| MaiBot Plugin SDK | ≥ 2.6.0（`_manifest.json: sdk.min_version`） |
+| Host | 1.3.0 – 1.4.99（`_manifest.json: host_application`） |
+| MaiBot Plugin SDK | 2.6.0 – 2.13.99（`_manifest.json: sdk`；上限按实测版本 2.13.0 锚定） |
 | Python | 3.12 |
 | capabilities | `send.text` |
 
@@ -162,11 +167,11 @@ C:\Users\octmicy\AppData\Roaming\MaiBotOneKeyDesktop\0163381a22cb\modules\MaiBot
 ## 5. 目录结构
 
 ```
-dicky_pk/
-├── __init__.py           __version__ = "1.0.0"
+（仓库根 = 插件目录，拷入 plugins/ 后目录名即包名）
+├── __init__.py           __version__ = "1.0.1"
 ├── _manifest.json        id=octmicy.dicky-pk，capabilities=["send.text"]
-├── config.py             DickyPKConfig 全量强类型配置模型（88 字段 / 9 节）
-├── config.toml           与模型默认值等价的配置文件（可改，热更新生效）
+├── config.py             DickyPKConfig 全量强类型配置模型（80 字段 / 9 节）
+├── config.toml.example   配置模板（config.toml 由 SDK 首次加载自动生成，不入 Git）
 ├── plugin.py             DickyPKPlugin：生命周期 + 全部 @Command 注册
 ├── README.md             本文件
 └── game/                 游戏逻辑（全部同步代码）

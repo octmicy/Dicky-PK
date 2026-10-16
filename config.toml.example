@@ -1,6 +1,11 @@
-# 牛子PK 插件配置
+# 牛子PK 插件配置模板
+#
+# 使用方法：插件首次加载时，SDK 会自动用 config.py 的模型默认值生成 config.toml，
+# 本文件仅供查阅与手动初始化参考（可复制为 config.toml 后自行调整）。
+# config.toml 是本地运行时文件，不纳入 Git 跟踪，避免本地改动在版本更新时冲突。
+# 修改 config.toml 保存后即可热更新（on_config_update 会重新注入游戏逻辑）。
+#
 # 默认值与原版 nonebot-plugin-dicky-pk 的 src/config.json 逐一相等。
-# 修改后保存即可热更新（on_config_update 会重新注入游戏逻辑）。
 
 [plugin]
 enabled = true
