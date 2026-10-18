@@ -17,8 +17,8 @@
     "max_version": "1.4.99"
   },
   "sdk": {
-    "min_version": "2.6.0",
-    "max_version": "2.13.99"
+    "min_version": "2.5.0",
+    "max_version": "2.99.99"
   },
   "dependencies": [],
   "capabilities": [
